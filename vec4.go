@@ -1,6 +1,9 @@
 package gogm
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // Vec4 is a vector with 4 components, of type T.
 type Vec4[T number] [4]T
@@ -29,6 +32,20 @@ func Vec4CopyVec3[T1, T2 number](dst *Vec4[T1], src *Vec3[T2]) {
 // String returns a string representation of the vector.
 func (v1 *Vec4[T]) String() string {
 	return fmt.Sprintf("{%v, %v, %v, %v}", v1[0], v1[1], v1[2], v1[3])
+}
+
+// Len returns the length of the vector.
+func (v1 *Vec4[T]) Len() float64 {
+	return math.Sqrt(math.Pow(float64(v1[0]), 2) + math.Pow(float64(v1[1]), 2) + math.Pow(float64(v1[2]), 2) + math.Pow(float64(v1[3]), 2))
+}
+
+// Normalize normalizes v2, and stores the result in v1.
+func (v1 *Vec4[T]) Normalize(v2 *Vec4[T]) {
+	l := T(v2.Len())
+	v1[0] = v2[0] / l
+	v1[1] = v2[1] / l
+	v1[2] = v2[2] / l
+	v1[3] = v2[3] / l
 }
 
 // Inverse sets v1 to the inverse of v2.
@@ -134,12 +151,12 @@ func (v1 *Vec4[T]) CrossHomogFast(v2 *Vec4[T], v3 *Vec4[T]) {
 	v1[2] = v2[0]*v3[1] - v3[0]*v2[1]
 }
 
-// Vec4Dot takes the dot product of v1 and v2, and returns the result.
-func Vec4Dot[T number](v1 *Vec4[T], v2 *Vec4[T]) T {
+// Dot takes the dot product of v1 and v2, and returns the result.
+func (v1 *Vec4[T]) Dot(v2 *Vec4[T]) T {
 	return v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2] + v1[3]*v2[3]
 }
 
-// Vec4DotHomog takes the dot product of v1 and v2, and returns the result.
-func Vec4DotHomog[T number](v1 *Vec4[T], v2 *Vec4[T]) T {
+// DotHomog takes the dot product of v1 and v2, and returns the result.
+func (v1 *Vec4[T]) DotHomog(v2 *Vec4[T]) T {
 	return v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]
 }

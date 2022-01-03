@@ -3,6 +3,7 @@ package gogm
 import (
 	"constraints"
 	"fmt"
+	"math"
 )
 
 type number interface {
@@ -33,6 +34,18 @@ func Vec2CopyVec4[T1, T2 number](dst *Vec2[T1], src *Vec4[T2]) {
 // String returns a string representation of the vector.
 func (v1 *Vec2[T]) String() string {
 	return fmt.Sprintf("{%v, %v}", v1[0], v1[1])
+}
+
+// Len returns the length of the vector.
+func (v1 *Vec2[T]) Len() float64 {
+	return math.Hypot(float64(v1[0]), float64(v1[1]))
+}
+
+// Normalize normalizes v2, and stores the result in v1.
+func (v1 *Vec2[T]) Normalize(v2 *Vec2[T]) {
+	l := T(v2.Len())
+	v1[0] = v2[0] / l
+	v1[1] = v2[1] / l
 }
 
 // Inverse sets v1 to the inverse of v2.
@@ -98,12 +111,12 @@ func (v1 *Vec2[T]) DivS(v2 *Vec2[T], s T) {
 	v1[1] = v2[1] / s
 }
 
-// Vec2Cross takes the cross product of v1 and v2, and returns the result.
-func Vec2Cross[T number](v1 *Vec2[T], v2 *Vec2[T]) T {
+// Cross takes the cross product of v1 and v2, and returns the result.
+func (v1 *Vec2[T]) Cross(v2 *Vec2[T]) T {
 	return v1[0]*v2[1] - v1[1]*v2[0]
 }
 
-// Vec2Dot takes the dot product of v1 and v2, and returns the result.
-func Vec2Dot[T number](v1 *Vec2[T], v2 *Vec2[T]) T {
+// Dot takes the dot product of v1 and v2, and returns the result.
+func (v1 *Vec2[T]) Dot(v2 *Vec2[T]) T {
 	return v1[0]*v2[0] + v1[1]*v2[1]
 }

@@ -1,6 +1,9 @@
 package gogm
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // Vec3 is a vector with 3 components, of type T.
 type Vec3[T number] [3]T
@@ -28,6 +31,19 @@ func Vec3CopyVec4[T1, T2 number](dst *Vec3[T1], src *Vec4[T2]) {
 // String returns a string representation of the vector.
 func (v1 *Vec3[T]) String() string {
 	return fmt.Sprintf("{%v, %v, %v}", v1[0], v1[1], v1[2])
+}
+
+// Len returns the length of the vector.
+func (v1 *Vec3[T]) Len() float64 {
+	return math.Sqrt(math.Pow(float64(v1[0]), 2) + math.Pow(float64(v1[1]), 2) + math.Pow(float64(v1[2]), 2))
+}
+
+// Normalize normalizes v2, and stores the result in v1.
+func (v1 *Vec3[T]) Normalize(v2 *Vec3[T]) {
+	l := T(v2.Len())
+	v1[0] = v2[0] / l
+	v1[1] = v2[1] / l
+	v1[2] = v2[2] / l
 }
 
 // Inverse sets v1 to the inverse of v2.
@@ -116,7 +132,7 @@ func (v1 *Vec3[T]) CrossFast(v2 *Vec3[T], v3 *Vec3[T]) {
 	v1[2] = v2[0]*v3[1] - v3[0]*v2[1]
 }
 
-// Vec3Dot takes the dot product of v1 and v2, and returns the result.
-func Vec3Dot[T number](v1 *Vec3[T], v2 *Vec3[T]) T {
+// Dot takes the dot product of v1 and v2, and returns the result.
+func (v1 *Vec3[T]) Dot(v2 *Vec3[T]) T {
 	return v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]
 }

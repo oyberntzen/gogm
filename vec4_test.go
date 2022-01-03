@@ -41,6 +41,23 @@ func TestVec4String(t *testing.T) {
 	t.Run("Expect correct result", subx.Test(subx.Value(result), subx.CompareEqual(expected)))
 }
 
+func TestVec4Len(t *testing.T) {
+	v1 := Vec4[int]{1, 1, 1, 1}
+	expected := float64(2)
+
+	result := v1.Len()
+	t.Run("Expect correct result", subx.Test(subx.Value(result), subx.CompareEqual(expected)))
+}
+
+func TestVec4Normalize(t *testing.T) {
+	v1 := Vec4[float64]{}
+	v2 := Vec4[float64]{0, 3, 0, 0}
+	expected := Vec4[float64]{0, 1, 0, 0}
+
+	v1.Normalize(&v2)
+	t.Run("Expect correct result", subx.Test(subx.Value(v1), subx.CompareEqual(expected)))
+}
+
 func TestVec4Inverse(t *testing.T) {
 	v1 := Vec4[int]{}
 	v2 := Vec4[int]{1, 2, 3, 4}
@@ -155,7 +172,7 @@ func TestVec4Dot(t *testing.T) {
 	v2 := Vec4[int]{5, 6, 7, 8}
 	expected := int(70)
 
-	result := Vec4Dot(&v1, &v2)
+	result := v1.Dot(&v2)
 	t.Run("Expect correct result", subx.Test(subx.Value(result), subx.CompareEqual(expected)))
 }
 
@@ -164,6 +181,6 @@ func TestVec4DotHomog(t *testing.T) {
 	v2 := Vec4[int]{4, 5, 6, 1}
 	expected := int(32)
 
-	result := Vec4DotHomog(&v1, &v2)
+	result := v1.DotHomog(&v2)
 	t.Run("Expect correct result", subx.Test(subx.Value(result), subx.CompareEqual(expected)))
 }

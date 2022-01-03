@@ -41,6 +41,23 @@ func TestVec2String(t *testing.T) {
 	t.Run("Expect correct result", subx.Test(subx.Value(result), subx.CompareEqual(expected)))
 }
 
+func TestVec2Len(t *testing.T) {
+	v1 := Vec2[int]{3, 4}
+	expected := float64(5)
+
+	result := v1.Len()
+	t.Run("Expect correct result", subx.Test(subx.Value(result), subx.CompareEqual(expected)))
+}
+
+func TestVec2Normalize(t *testing.T) {
+	v1 := Vec2[float64]{}
+	v2 := Vec2[float64]{0, 3}
+	expected := Vec2[float64]{0, 1}
+
+	v1.Normalize(&v2)
+	t.Run("Expect correct result", subx.Test(subx.Value(v1), subx.CompareEqual(expected)))
+}
+
 func TestVec2Inverse(t *testing.T) {
 	v1 := Vec2[int]{}
 	v2 := Vec2[int]{1, 2}
@@ -136,7 +153,7 @@ func TestVec2Cross(t *testing.T) {
 	v2 := Vec2[int]{2, 1}
 	expected := int(-5)
 
-	result := Vec2Cross(&v1, &v2)
+	result := v1.Cross(&v2)
 	t.Run("Expect correct result", subx.Test(subx.Value(result), subx.CompareEqual(expected)))
 }
 
@@ -145,6 +162,6 @@ func TestVec2Dot(t *testing.T) {
 	v2 := Vec2[int]{3, 4}
 	expected := int(11)
 
-	result := Vec2Dot(&v1, &v2)
+	result := v1.Dot(&v2)
 	t.Run("Expect correct result", subx.Test(subx.Value(result), subx.CompareEqual(expected)))
 }
